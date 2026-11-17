@@ -1,5 +1,9 @@
 # Solmar Bay — make.fun gta6-01 entry
 
+[![make.fun · gta6-01](https://make.fun/badge/gta6-01.svg)](https://make.fun/bounty/gta6-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-01)
+[![rank](https://make.fun/badge/gta6-01/junod1908/gta6-01/rank.svg)](https://make.fun/bounty/gta6-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=gta6-01)
+[![reward](https://make.fun/badge/gta6-01/junod1908/gta6-01/reward.svg)](https://make.fun/bounty/gta6-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-01)
+
 An original open-world crime game that plays offline in a desktop browser.
 You are **Rico Vega**, a driver for hire in the fictional coastal city of
 **Solmar Bay**. Work four jobs for Mara Solis — a fare, a stolen coupe, a heat
