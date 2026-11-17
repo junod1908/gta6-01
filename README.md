@@ -21,10 +21,25 @@ wave, a harbor run — while the bay PD answers with cruisers and officers.
 - Start screen, pause, busted/respawn, and save/load via localStorage
 - Sound synthesized live with WebAudio — engine, sirens, gunfire, jingles
 
-## Controls
+## How to play
 
-WASD drive & walk · mouse drag: camera · click: shoot · E: enter/exit car ·
-F: punch · Space: jump / handbrake · Shift: run · P: pause · M: mute
+You are Rico Vega, working four jobs for Mara Solis. Follow the gold beacon
+and the minimap marker to each objective:
+
+1. **First Fare** — pick up the client at the marina district and drop them
+   at the Solmar Hotel.
+2. **The Pickup** — steal the mint coupe parked by the marina and deliver
+   it to the garage.
+3. **Heat Wave** — lose the heat until your wanted stars fade, then reach
+   the safehouse on the north side unseen.
+4. **Harbor Run** — deliver the package to the harbor freighter, with the
+   bay PD on your tail.
+
+Controls: **WASD / arrow keys** walk and drive · **E** enter or steal a
+car · **F** melee punch · **mouse click** fire the pistol · **P** pause ·
+**Shift** run · **Space** jump / handbrake · **mouse drag** camera ·
+**M** mute. Crimes raise your wanted stars — the more stars, the harder
+Solmar Bay PD comes after you.
 
 ## Run it
 
@@ -40,3 +55,9 @@ mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 
 Screenshots live in `screenshots/` (the first by name is the cover); they are
 real renders of the game, staged with `?shot=chase|street|drive|mission&seed=N`.
+
+---
+
+Come play Solmar Bay and follow the standings on the
+[gta6-01 bounty page](https://make.fun/bounty/gta6-01) — new players can
+join through our referral link: https://make.fun/r/pex4n748
