@@ -41,11 +41,26 @@ car · **F** melee punch · **mouse click** fire the pistol · **P** pause ·
 **M** mute. Crimes raise your wanted stars — the more stars, the harder
 Solmar Bay PD comes after you.
 
+Tip: wanted stars fade while you stay out of sight, so when the heat gets
+heavy, duck into a side street, ditch the car and wait it out.
+
 ## Run it
 
 ```sh
 node serve.ts        # game/ on http://localhost:8080
 ```
+
+## Screenshots
+
+Four real renders of the game, staged with `?shot=...&seed=7`:
+
+- `1-chase.jpg` — the cover: a three-star police chase on the coast road,
+  the Harbor Run objective on the HUD and the minimap lit up.
+- `2-street.jpg` — on foot downtown, with traffic and pedestrians
+  around Rico.
+- `3-drive.jpg` — a beach cruise westbound along the shore, the skyline
+  ahead and the sea on the left.
+- `4-mission.jpg` — at the harbor beacon, two officers closing in on foot.
 
 ## Hand it in
 

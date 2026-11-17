@@ -40,11 +40,13 @@ function placeOnBeachRoad(world, heading) {
   return car;
 }
 
-// Chasers in frame: one trailing in the north lane, one coming head-on down
-// the avenue, one more behind. Police steer straight at the player wherever
-// they start, so the staging keeps every cruiser's pursuit line on the road
-// for the whole shot window: a cruiser placed ahead in the north lane turns
-// hard across the player's path, cuts onto the sand and fills the frame's
+// Chasers in frame: one trailing alongside in the next lane, one coming
+// head-on down the avenue, one more behind. Police steer straight at the
+// player wherever they start, so the staging keeps every cruiser's pursuit
+// line on the road for the whole shot window: the trailing cruiser starts
+// one lane over (z - 4) so it reads as pacing the player rather than ramming
+// him out of frame, a cruiser placed ahead in the north lane turns hard
+// across the player's path, cuts onto the sand and fills the frame's
 // corner, and a head-on cruiser starting at +42 meets the player inside the
 // window — the circle push then shoves it off the avenue's south edge.
 function addChasers(world) {
