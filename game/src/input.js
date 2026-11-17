@@ -1,49 +1,71 @@
-// Keyboard and pointer input. Held keys give a steering direction; one-shot presses (start or
-// restart, pause) are queued as bit flags and taken once by the loop, so a press between two
-// frames is never lost and never counted twice.
+// Input: the keyboard state the world reads every step, plus the edge-triggered
+// actions (enter a car, punch, pause) that fire once per press. The mouse drags
+// the camera; a click fires the pistol while playing.
+export const ACTION_ENTER = 1;
+export const ACTION_PUNCH = 2;
+export const ACTION_PAUSE = 4;
+export const ACTION_CONFIRM = 8;
+export const ACTION_MUTE = 16;
 
-export const ACTION_CONFIRM = 1;
-export const ACTION_PAUSE = 2;
-
-const LEFT = new Set(['ArrowLeft', 'KeyA']);
-const RIGHT = new Set(['ArrowRight', 'KeyD']);
-const CONFIRM = new Set(['Space', 'Enter']);
-const PAUSE = new Set(['KeyP', 'Escape']);
-
-export function createInput(target) {
-  let left = false;
-  let right = false;
+export function createInput(canvas) {
+  const keys = new Set();
   let actions = 0;
+  let dragging = false;
+  let lastX = 0;
+  let lastY = 0;
+  let yawDelta = 0;
+  let pitchDelta = 0;
+  let clicked = false;
 
-  window.addEventListener('keydown', (event) => {
-    if (LEFT.has(event.code)) left = true;
-    else if (RIGHT.has(event.code)) right = true;
-    else if (CONFIRM.has(event.code)) {
-      if (!event.repeat) actions |= ACTION_CONFIRM;
-    } else if (PAUSE.has(event.code)) {
-      if (!event.repeat) actions |= ACTION_PAUSE;
-    } else return;
-    event.preventDefault();
+  const code = (e) => e.code;
+  window.addEventListener('keydown', (e) => {
+    if (['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(code(e))) e.preventDefault();
+    if (e.repeat) return;
+    keys.add(code(e));
+    if (code(e) === 'KeyE') actions |= ACTION_ENTER;
+    if (code(e) === 'KeyF') actions |= ACTION_PUNCH;
+    if (code(e) === 'KeyP' || code(e) === 'Escape') actions |= ACTION_PAUSE;
+    if (code(e) === 'Enter' || code(e) === 'Space') actions |= ACTION_CONFIRM;
+    if (code(e) === 'KeyM') actions |= ACTION_MUTE;
   });
-  window.addEventListener('keyup', (event) => {
-    if (LEFT.has(event.code)) left = false;
-    else if (RIGHT.has(event.code)) right = false;
+  window.addEventListener('keyup', (e) => keys.delete(code(e)));
+  window.addEventListener('blur', () => keys.clear());
+
+  canvas.addEventListener('mousedown', (e) => {
+    dragging = true;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    clicked = true;
   });
-  // A key released while the tab is hidden never sends keyup: let go of everything on blur.
-  window.addEventListener('blur', () => {
-    left = false;
-    right = false;
+  window.addEventListener('mousemove', (e) => {
+    if (!dragging) return;
+    yawDelta += e.clientX - lastX;
+    pitchDelta += e.clientY - lastY;
+    lastX = e.clientX;
+    lastY = e.clientY;
   });
-  target.addEventListener('pointerdown', () => {
-    actions |= ACTION_CONFIRM;
-  });
+  window.addEventListener('mouseup', () => { dragging = false; });
 
   return {
-    /** -1 for left, 1 for right, 0 for neither or both. */
-    direction() {
-      return (right ? 1 : 0) - (left ? 1 : 0);
+    get forward() { return keys.has('KeyW') || keys.has('ArrowUp'); },
+    get back() { return keys.has('KeyS') || keys.has('ArrowDown'); },
+    get left() { return keys.has('KeyA') || keys.has('ArrowLeft'); },
+    get right() { return keys.has('KeyD') || keys.has('ArrowRight'); },
+    get run() { return keys.has('ShiftLeft') || keys.has('ShiftRight'); },
+    get jump() { return keys.has('Space'); },
+    get handbrake() { return keys.has('Space'); },
+    // The mouse: a drag orbits the camera, a click fires the pistol.
+    takeLook() {
+      const look = { yaw: yawDelta * 0.005, pitch: pitchDelta * 0.004 };
+      yawDelta = 0;
+      pitchDelta = 0;
+      return look;
     },
-    /** The one-shot presses since the last call, as ACTION_* flags. */
+    takeClick() {
+      const was = clicked;
+      clicked = false;
+      return was;
+    },
     takeActions() {
       const taken = actions;
       actions = 0;
